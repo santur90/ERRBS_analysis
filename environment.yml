@@ -1,0 +1,16 @@
+name: errbs
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - cutadapt
+  - bismark
+  - bowtie2
+  - samtools
+  - r-base
+  - bioconductor-bsseq
+  - bioconductor-genomicranges
+  - bioconductor-iranges
+  - r-methylsig
+  - r-methylkit
+  - r-pheatmap
