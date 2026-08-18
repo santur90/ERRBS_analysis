@@ -1,0 +1,39 @@
+name: Check pipeline
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  shellcheck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ShellCheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Validate shell syntax
+        run: |
+          bash -n run_errbs.sh
+          bash -n scripts/*.sh
+
+      - name: Run ShellCheck
+        run: shellcheck run_errbs.sh scripts/*.sh
+
+      - name: Dry-run pipeline
+        run: ./run_errbs.sh --config config.tsv --samples samples.tsv --dry-run
+
+  r-syntax-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.3"
+
+      - name: Check R syntax
+        run: Rscript -e 'parse(file = "R/run_methylsig.R"); cat("OK\n")'
