@@ -13,7 +13,7 @@ min_length=$(get_config MIN_LENGTH)
 min_overlap=$(get_config MIN_OVERLAP)
 mkdir -p "$outdir/trimmed" "$outdir/bismark" "$outdir/qc" "$outdir/logs"
 
-while IFS=$'\t' read -r sample group r1 r2; do
+while IFS=$'\t' read -r sample _ r1 r2; do
     [[ "$sample" == "sample" || -z "$sample" ]] && continue
     [[ -f "$r1" && -f "$r2" ]] || { echo "FASTQ files missing for $sample" >&2; exit 1; }
     cutadapt -j "$threads" -e 0.2 -a "$adapter" -A "$adapter" -m "$min_length" -O "$min_overlap" \
